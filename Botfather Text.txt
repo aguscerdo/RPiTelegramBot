@@ -1,0 +1,9 @@
+shows - Time left for shows
+weather - Weather based on location
+random - default 10, or x
+coin - flip coin, best of 5
+rlist - Random item from list [a b c d ...]
+dice1 - Roll 1 die
+dice2 - Roll 2 dice
+tts - Text to Speech
+ttses - Texto a Habla
