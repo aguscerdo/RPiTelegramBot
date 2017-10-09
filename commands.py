@@ -9,10 +9,9 @@ import json
 import os
 # import cv2
 
-
 """
 #
-#   Basic Commands
+#   Raspi Functions
 #
 """
 
@@ -67,14 +66,58 @@ def flipCoin(bot, update):
     update.message.reply_text(rt)
 
 
+def deleteShow(bot, update):
+    message = stripMessage(update)
+    IDPath = folderID(filePath(), update.message.chat_id)
+    if os.path.isfile(IDPath + "shows.json"): #If file exists
+        shows = json.load(open(IDPath + 'shows.json'))    #Open it
+        if message in shows:
+            shows.pop(message)
+            json.dump(shows, open(IDPath + 'shows.json', 'w'))
+            update.message.reply_text("%s succesfully removed." % message)
+        else:
+            update.message.reply_text("No such name stored.")
+    else:   #File doesn't exist, nothing to delete.
+        update.message.reply_text("There are no shows stored.")
+
+
+def timeToShow(bot, update):
+    message = stripMessage(update)
+    IDPath = folderID(filePath(), update.message.chat_id)
+    if os.path.isfile(IDPath + "shows.json"):  # If file exists
+        shows = json.load(open(IDPath + 'shows.json'))  # Open it
+        STime = ShowTime
+        confirmation = STime.loadTimes(shows[message])
+        if not confirmation:
+            update.message.reply_text(STime.timeDifference())
+        else:
+            update.message.reply_text('Not such show stored.')
+    else:
+        update.message.reply_text("There are no shows stored.")
+
+
 def TTS(bot, update):
-    tts = gtts.gTTS(text=stripMessage(update), lang='en')
-    update.message.audio(tts)
+    try:
+        message = stripMessage(update)
+        tts = gtts.gTTS(text=message, lang='en')
+        tts.save('/tmp/audio.wav')
+        audio = open('/tmp/audio.wav', 'rb')
+        update.message.reply_voice(audio)
+    except Exception as e:
+        print(e)
+        update.message.reply_text("Error: %s" % e)
 
 
 def TTSEs(bot, update):
-    tts = gtts.gTTS(text=stripMessage(update), lang='es')
-    update.message.audio(tts)
+    try:
+        message = stripMessage(update)
+        tts = gtts.gTTS(text=message, lang='es')
+        tts.save('/tmp/audio.wav')
+        audio = open('/tmp/audio.wav', 'rb')
+        update.message.reply_voice(audio)
+    except Exception as e:
+        print(e)
+        update.message.reply_text("Error: %s" % e)
 
 
 # def imageAnalysis(bot, update):
@@ -94,5 +137,3 @@ def TTSEs(bot, update):
 #         update.message.reply_photo(edge)
 #     except Exception as e:
 #         print(e)
-
-
