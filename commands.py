@@ -126,14 +126,10 @@ def TTSEs(bot, update):
 #         fileID = update.message.photo[-1].file_id
 #         file = bot.getFile(fileID)
 #         file.download(IDPath + 'EDGERaw.jpg')
-#         print('Small Tits')
 #         rawImg = cv2.imread('EDGERaw.jpg',0)
-#         print('Medium Tits')
 #         grayScale = cv2.cvtColor(rawImg, cv2.COLOR_BGR2GRAY)
-#         print('Big Tits')
 #         # gBlur = cv2.GaussianBlur(grayScale, (5,5), 0)
 #         edge = cv2.Canny(grayScale, 100, 200)
-#         print('Kate Upton')
 #         update.message.reply_photo(edge)
 #     except Exception as e:
 #         print(e)
